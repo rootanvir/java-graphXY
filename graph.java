@@ -4,16 +4,15 @@ import java.awt.event.*;
 
 public class graph extends JFrame {
     public graph() {
-        setTitle("Graph Paper");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
-        
+        setUndecorated(true); // Remove the title bar
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Set to fullscreen
+        setResizable(false); // Disable resizing
+        setVisible(true);
+
         GraphPaperPanel panel = new GraphPaperPanel();
         getContentPane().add(panel);
-        
-        setVisible(true);
     }
-    
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new graph());
     }
@@ -67,13 +66,13 @@ class GraphPaperPanel extends JPanel {
         int height = getHeight();
         int centerX = width / 2;
         int centerY = height / 2;
-        
+
         double scaleX = (double) (point.x - centerX) / centerX;
         double scaleY = (double) (centerY - point.y) / centerY;
-        
+
         return new GraphPoint(scaleX, scaleY);
     }
-    
+
     private void drawGraphPaper(Graphics g) {
         // Draw grid lines
         int width = getWidth();
@@ -81,9 +80,9 @@ class GraphPaperPanel extends JPanel {
         int cellSize = Math.min(width, height) / 20; // Adjust grid size here
         int centerX = width / 2;
         int centerY = height / 2;
-        
+
         g.setColor(Color.LIGHT_GRAY);
-        
+
         // Draw horizontal grid lines
         for (int y = centerY - cellSize; y >= 0; y -= cellSize) {
             g.drawLine(0, y, width, y);
@@ -91,7 +90,7 @@ class GraphPaperPanel extends JPanel {
         for (int y = centerY + cellSize; y <= height; y += cellSize) {
             g.drawLine(0, y, width, y);
         }
-        
+
         // Draw vertical grid lines
         for (int x = centerX - cellSize; x >= 0; x -= cellSize) {
             g.drawLine(x, 0, x, height);
@@ -99,7 +98,7 @@ class GraphPaperPanel extends JPanel {
         for (int x = centerX + cellSize; x <= width; x += cellSize) {
             g.drawLine(x, 0, x, height);
         }
-        
+
         // Draw axes
         g.setColor(Color.BLACK);
         g.drawLine(0, centerY, width, centerY);
