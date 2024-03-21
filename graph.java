@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GraphPaperApp extends JFrame {
-    public GraphPaperApp() {
+public class graph extends JFrame {
+    public graph() {
         setTitle("Graph Paper");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -15,7 +15,7 @@ public class GraphPaperApp extends JFrame {
     }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new GraphPaperApp());
+        SwingUtilities.invokeLater(() -> new graph());
     }
 }
 
