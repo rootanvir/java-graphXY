@@ -3,18 +3,45 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class graph extends JFrame {
-    public graph() {
-        setUndecorated(true); // Remove the title bar
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Set to fullscreen
-        setResizable(false); // Disable resizing
-        setVisible(true);
+    private GraphPaperPanel panel;
+    private boolean fullscreen = true;
 
-        GraphPaperPanel panel = new GraphPaperPanel();
+    public graph() {
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        panel = new GraphPaperPanel();
         getContentPane().add(panel);
+
+        // Register keyboard shortcut for toggling fullscreen
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if (e.getID() == KeyEvent.KEY_PRESSED && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F) {
+                    toggleFullscreen();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void toggleFullscreen() {
+        if (fullscreen) {
+            setExtendedState(JFrame.NORMAL); // Exit fullscreen
+            setUndecorated(false); // Show title bar
+        } else {
+            setExtendedState(JFrame.MAXIMIZED_BOTH); // Enter fullscreen
+            setUndecorated(true); // Remove title bar
+        }
+        fullscreen = !fullscreen;
+        panel.repaint(); // Repaint panel to update graphics
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new graph());
+        SwingUtilities.invokeLater(() -> {
+            graph frame = new graph();
+            frame.setVisible(true);
+        });
     }
 }
 
