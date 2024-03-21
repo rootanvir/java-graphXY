@@ -13,6 +13,23 @@ public class graph extends JFrame {
         panel = new GraphPaperPanel();
         getContentPane().add(panel);
 
+        // Create a menu bar
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        // Create a menu
+        JMenu menu = new JMenu("Options");
+        menuBar.add(menu);
+
+        // Create a menu item for toggling fullscreen
+        JMenuItem fullscreenItem = new JMenuItem("Toggle Fullscreen (Ctrl + F)");
+        menu.add(fullscreenItem);
+        fullscreenItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                toggleFullscreen();
+            }
+        });
+
         // Register keyboard shortcut for toggling fullscreen
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
@@ -104,7 +121,7 @@ class GraphPaperPanel extends JPanel {
         // Draw grid lines
         int width = getWidth();
         int height = getHeight();
-        int cellSize = Math.min(width, height) / 20; // Adjust grid size here
+        int cellSize = Math.min(width, height) / 40; // Adjust grid size here
         int centerX = width / 2;
         int centerY = height / 2;
 
