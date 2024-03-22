@@ -12,34 +12,6 @@ public class graph extends JFrame {
 
         panel = new GraphPaperPanel();
         getContentPane().add(panel);
-
-        // Create a menu bar
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-
-        // Create a menu
-        JMenu menu = new JMenu("Options");
-        menuBar.add(menu);
-
-        // Create a menu item for toggling fullscreen
-        JMenuItem fullscreenItem = new JMenuItem("Toggle Fullscreen (Ctrl + F)");
-        menu.add(fullscreenItem);
-        fullscreenItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                toggleFullscreen();
-            }
-        });
-
-        // Register keyboard shortcut for toggling fullscreen
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent e) {
-                if (e.getID() == KeyEvent.KEY_PRESSED && e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F) {
-                    toggleFullscreen();
-                }
-                return false;
-            }
-        });
     }
 
     private void toggleFullscreen() {
