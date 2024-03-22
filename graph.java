@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class graph extends JFrame {
     private GraphPaperPanel panel;
-    private boolean fullscreen = true;
+    private boolean fullscreen = false; // Initialize to false initially
 
     public graph() {
         setSize(800, 600);
@@ -12,17 +12,33 @@ public class graph extends JFrame {
 
         panel = new GraphPaperPanel();
         getContentPane().add(panel);
+
+        // Register keyboard shortcut for toggling fullscreen
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_F) {
+                    toggleFullscreen();
+                }
+                return false;
+            }
+        });
     }
 
     private void toggleFullscreen() {
-        if (fullscreen) {
-            setExtendedState(JFrame.NORMAL); // Exit fullscreen
-            setUndecorated(false); // Show title bar
+        if (!fullscreen) {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gd = ge.getDefaultScreenDevice();
+            if (gd.isFullScreenSupported()) {
+                gd.setFullScreenWindow(this);
+                fullscreen = true;
+            }
         } else {
-            setExtendedState(JFrame.MAXIMIZED_BOTH); // Enter fullscreen
-            setUndecorated(true); // Remove title bar
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gd = ge.getDefaultScreenDevice();
+            gd.setFullScreenWindow(null);
+            fullscreen = false;
         }
-        fullscreen = !fullscreen;
         panel.repaint(); // Repaint panel to update graphics
     }
 
