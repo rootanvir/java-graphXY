@@ -5,6 +5,7 @@ import java.awt.event.*;
 public class graph extends JFrame {
     private GraphPaperPanel panel;
     private boolean fullscreen = false; // Initialize to false initially
+    private boolean windowOpened = false; // Flag to track whether the window has been opened
 
     public graph() {
         setSize(800, 600);
@@ -19,6 +20,9 @@ public class graph extends JFrame {
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() == KeyEvent.VK_F) {
                     toggleFullscreen();
+                } else if (e.getKeyCode() == KeyEvent.VK_P && !windowOpened) {
+                    openNewWindow();
+                    windowOpened = true;
                 }
                 return false;
             }
@@ -42,6 +46,31 @@ public class graph extends JFrame {
         panel.repaint(); // Repaint panel to update graphics
     }
 
+    private void openNewWindow() {
+        JFrame newFrame = new JFrame("Developer Windows");
+        String name="Tanvir Ahmed Tuhin ";
+        JLabel label = new JLabel(name);
+        newFrame.getContentPane().add(label);
+        newFrame.setSize(300, 200);
+        newFrame.setVisible(true);
+
+        newFrame.addWindowListener(new WindowAdapter() {
+        // 
+           @Override
+            public void windowClosed(WindowEvent e) {
+                windowOpened = false;
+            }
+        });
+        // Action listener for closing the new window
+        newFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                windowOpened = false;
+            }
+        });
+        windowOpened = true; // Set the flag to true after opening the window
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             graph frame = new graph();
@@ -51,24 +80,9 @@ public class graph extends JFrame {
 }
 
 class GraphPaperPanel extends JPanel {
-    private Point startPoint;
-    private Point endPoint;
     private GraphPoint centerPoint;
 
     public GraphPaperPanel() {
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                startPoint = e.getPoint();
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                endPoint = e.getPoint();
-                repaint();
-            }
-        });
-
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -83,13 +97,10 @@ class GraphPaperPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawGraphPaper(g);
-        if (startPoint != null && endPoint != null) {
-            g.setColor(Color.BLUE);
-            g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
-        }
         if (centerPoint != null) {
             g.setColor(Color.RED);
-            g.drawString("(" + centerPoint.getX() + ", " + centerPoint.getY() + ")", getWidth() / 2 + 5, getHeight() / 2 - 5);
+            g.drawString("(" + centerPoint.getX() + ", " + centerPoint.getY() + ")", getWidth() / 2 + 5,
+                    getHeight() / 2 - 5);
         }
     }
 
