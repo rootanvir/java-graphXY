@@ -221,7 +221,7 @@ class GraphPoint {
     }
 }
 
-class DotPositionWindow extends JFrame {
+ class DotPositionWindow extends JFrame {
     private JTextArea textArea;
 
     public DotPositionWindow() {
