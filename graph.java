@@ -1,11 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class graph extends JFrame {
+    
     private GraphPaperPanel panel;
     private boolean fullscreen = false; // Initialize to false initially
     private boolean windowOpened = false; // Flag to track whether the window has been opened
+    private DotPositionWindow dotPositionWindow;
 
     public graph() {
         setSize(800, 600);
@@ -23,6 +27,10 @@ public class graph extends JFrame {
                 } else if (e.getKeyCode() == KeyEvent.VK_P && !windowOpened) {
                     openNewWindow();
                     windowOpened = true;
+                } else if (e.getKeyCode() == KeyEvent.VK_D) {
+                    deleteLastDot();
+                } else if (e.getKeyCode() == KeyEvent.VK_T) {
+                    openDotPositionWindow();
                 }
                 return false;
             }
@@ -47,16 +55,16 @@ public class graph extends JFrame {
     }
 
     private void openNewWindow() {
-        JFrame newFrame = new JFrame("Developer Windows");
-        String name="Tanvir Ahmed Tuhin ";
+        JFrame newFrame = new JFrame("Developer ");
+        String name = "Tanvir Ahmed Tuhin ";
         JLabel label = new JLabel(name);
         newFrame.getContentPane().add(label);
         newFrame.setSize(300, 200);
         newFrame.setVisible(true);
 
         newFrame.addWindowListener(new WindowAdapter() {
-        // 
-           @Override
+            //
+            @Override
             public void windowClosed(WindowEvent e) {
                 windowOpened = false;
             }
@@ -71,24 +79,49 @@ public class graph extends JFrame {
         windowOpened = true; // Set the flag to true after opening the window
     }
 
+    private void openDotPositionWindow() {
+        if (dotPositionWindow == null) {
+            dotPositionWindow = new DotPositionWindow();
+        }
+        dotPositionWindow.updateDotPositions(panel.getDotPoints());
+        dotPositionWindow.setVisible(true);
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             graph frame = new graph();
             frame.setVisible(true);
         });
     }
+
+    private void deleteLastDot() {
+        panel.removeLastDot();
+    }
 }
 
 class GraphPaperPanel extends JPanel {
     private GraphPoint centerPoint;
+    private List<Point> dotPoints = new ArrayList<>(); // List to store multiple dots
 
     public GraphPaperPanel() {
+        setFocusable(true); // Set panel focusable to capture key events
+
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 Point mousePoint = e.getPoint();
                 centerPoint = convertToGraphCoordinates(mousePoint);
                 repaint();
+            }
+        });
+
+        // Add mouse listener to handle double-click
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    addDot(e.getPoint());
+                }
             }
         });
     }
@@ -101,6 +134,11 @@ class GraphPaperPanel extends JPanel {
             g.setColor(Color.RED);
             g.drawString("(" + centerPoint.getX() + ", " + centerPoint.getY() + ")", getWidth() / 2 + 5,
                     getHeight() / 2 - 5);
+        }
+        for (Point dotPoint : dotPoints) {
+            int dotSize = 5; // Size of the dot
+            g.setColor(Color.RED);
+            g.fillOval(dotPoint.x - dotSize / 2, dotPoint.y - dotSize / 2, dotSize, dotSize); // Draw the dot at the specified point
         }
     }
 
@@ -147,6 +185,22 @@ class GraphPaperPanel extends JPanel {
         g.drawLine(0, centerY, width, centerY);
         g.drawLine(centerX, 0, centerX, height);
     }
+
+    public void addDot(Point point) {
+        dotPoints.add(point);
+        repaint(); // Repaint panel to update graphics
+    }
+
+    public void removeLastDot() {
+        if (!dotPoints.isEmpty()) {
+            dotPoints.remove(dotPoints.size() - 1);
+            repaint(); // Repaint panel to update graphics
+        }
+    }
+
+    public List<Point> getDotPoints() {
+        return dotPoints;
+    }
 }
 
 class GraphPoint {
@@ -164,5 +218,33 @@ class GraphPoint {
 
     public double getY() {
         return y;
+    }
+}
+
+class DotPositionWindow extends JFrame {
+    private JTextArea textArea;
+
+    public DotPositionWindow() {
+        setTitle("Dot Positions");
+        setSize(300, 200);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+
+        textArea = new JTextArea();
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        getContentPane().add(scrollPane);
+
+        // Center the window on screen
+        setLocationRelativeTo(null);
+    }
+
+    public void updateDotPositions(List<Point> dotPoints) {
+        textArea.setText(""); // Clear the text area
+        if (!dotPoints.isEmpty()) {
+            for (Point dotPoint : dotPoints) {
+                textArea.append("(" + dotPoint.x + ", " + dotPoint.y + ")\n");
+            }
+        } else {
+            textArea.append("No dot positions available.");
+        }
     }
 }
