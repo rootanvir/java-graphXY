@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class graph extends JFrame {
-    
+
     private GraphPaperPanel panel;
     private boolean fullscreen = false; // Initialize to false initially
     private boolean windowOpened = false; // Flag to track whether the window has been opened
@@ -121,6 +121,8 @@ class GraphPaperPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     addDot(e.getPoint());
+                    new FileHandle().saveDoubleValues(centerPoint.getX(), centerPoint.getY());
+
                 }
             }
         });
@@ -138,7 +140,8 @@ class GraphPaperPanel extends JPanel {
         for (Point dotPoint : dotPoints) {
             int dotSize = 5; // Size of the dot
             g.setColor(Color.RED);
-            g.fillOval(dotPoint.x - dotSize / 2, dotPoint.y - dotSize / 2, dotSize, dotSize); // Draw the dot at the specified point
+            g.fillOval(dotPoint.x - dotSize / 2, dotPoint.y - dotSize / 2, dotSize, dotSize); // Draw the dot at the
+                                                                                              // specified point
         }
     }
 
@@ -193,8 +196,12 @@ class GraphPaperPanel extends JPanel {
 
     public void removeLastDot() {
         if (!dotPoints.isEmpty()) {
-            dotPoints.remove(dotPoints.size() - 1);
+            //dotPoints.remove(dotPoints.size() - 1);
+            dotPoints.clear();
             repaint(); // Repaint panel to update graphics
+            new FileHandle().deleteFile("pointer.txt");
+            new FileHandle().saveDoubleValues();;
+
         }
     }
 
@@ -221,14 +228,14 @@ class GraphPoint {
     }
 }
 
- class DotPositionWindow extends JFrame {
+class DotPositionWindow extends JFrame {
     private JTextArea textArea;
 
     public DotPositionWindow() {
         setTitle("Dot Positions");
-        setSize(300, 200);
+        setSize(300, 800);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
+        setAlwaysOnTop(true);
         textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
         getContentPane().add(scrollPane);
@@ -239,10 +246,15 @@ class GraphPoint {
 
     public void updateDotPositions(List<Point> dotPoints) {
         textArea.setText(""); // Clear the text area
+        String TextFromFile=new FileHandle().readWholeFile("pointer.txt");
+
         if (!dotPoints.isEmpty()) {
-            for (Point dotPoint : dotPoints) {
-                textArea.append("(" + dotPoint.x + ", " + dotPoint.y + ")\n");
-            }
+            // for (Point dotPoint : dotPoints) {
+            //     textArea.append("(" + dotPoint.x + ", " + dotPoint.y + ")\n");
+            // }
+            textArea.append(TextFromFile);
+            
+
         } else {
             textArea.append("No dot positions available.");
         }
