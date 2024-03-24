@@ -41,15 +41,11 @@ public class FileHandle {
     }
 
     public void deleteFile(String deleteFile) {
-        File file = new File(deleteFile);
-        if (file.exists()) {
-            if (file.delete()) {
-                System.out.println("File deleted successfully: " + deleteFile);
-            } else {
-                System.err.println("Unable to delete the file: " + deleteFile);
-            }
-        } else {
-            System.err.println("File doesn't exist: " + deleteFile);
+        try (PrintWriter writer = new PrintWriter(new FileWriter(deleteFile))) {
+            writer.printf("");
+            // System.out.println("Values saved successfully to " + filename);
+        } catch (IOException e) {
+            System.err.println("Error occurred while writing to the file: " + e.getMessage());
         }
     }
 

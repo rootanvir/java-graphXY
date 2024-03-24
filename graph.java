@@ -17,6 +17,13 @@ public class graph extends JFrame {
 
         panel = new GraphPaperPanel();
         getContentPane().add(panel);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                new FileHandle().deleteFile("pointer.txt");
+            }
+        });
+        
 
         // Register keyboard shortcut for toggling fullscreen
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
@@ -233,7 +240,7 @@ class DotPositionWindow extends JFrame {
 
     public DotPositionWindow() {
         setTitle("Dot Positions");
-        setSize(300, 800);
+        setSize(500, 800);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setAlwaysOnTop(true);
         textArea = new JTextArea();
