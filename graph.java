@@ -253,6 +253,7 @@ class DotPositionWindow extends JFrame {
 
     public void updateDotPositions(List<Point> dotPoints) {
         textArea.setText(""); // Clear the text area
+        textArea.setEditable(false);
         String TextFromFile=new FileHandle().readWholeFile("pointer.txt");
 
         if (!dotPoints.isEmpty()) {
