@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class graph extends JFrame {
     private boolean fullscreen = false; // Initialize to false initially
     private boolean windowOpened = false; // Flag to track whether the window has been opened
     private DotPositionWindow dotPositionWindow;
+    private boolean isCmdOpen = false;
 
     public graph() {
         setSize(800, 600);
@@ -38,6 +40,10 @@ public class graph extends JFrame {
                     deleteLastDot();
                 } else if (e.getKeyCode() == KeyEvent.VK_T) {
                     openDotPositionWindow();
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_C && !isCmdOpen) {
+                    openCommandPrompt();
+                    isCmdOpen = true;
                 }
                 return false;
             }
@@ -93,7 +99,21 @@ public class graph extends JFrame {
         dotPositionWindow.updateDotPositions(panel.getDotPoints());
         dotPositionWindow.setVisible(true);
     }
-
+        private static void openCommandPrompt() {
+        try {
+            // Command to execute to open command prompt
+            String command = "cmd.exe /c start";
+            
+            // Execute the command
+            Process process = Runtime.getRuntime().exec(command);
+            
+            // Wait for the process to finish (optional)
+            // int exitCode = process.waitFor();
+            // System.out.println("Exited with error code: " + exitCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             graph frame = new graph();
