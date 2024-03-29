@@ -32,8 +32,14 @@ public class FileHandle {
 
     public void saveDoubleValues(double x, double y) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
-
-            writer.printf("%s,%s%n","glVertex2f("+ x + "f", y + "f);");
+            
+            String formattedX = String.format("%.3f", x);
+            String formattedY = String.format("%.3f", y);
+            writer.printf("glVertex2f(%.3ff, %.3ff);\n", Double.parseDouble(formattedX), Double.parseDouble(formattedY));
+            
+            
+            
+            //writer.printf("%s,%s%n","glVertex2f("+ x + "f", y + "f);");
             // System.out.println("Values saved successfully to " + filename);
         } catch (IOException e) {
             System.err.println("Error occurred while writing to the file: " + e.getMessage());
