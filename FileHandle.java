@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 public class FileHandle {
     private String filename = "pointer.txt";
-
+    private String header="glColor3f(0.404f, 0.404f, 0.404f); \nglBegin(GL_POLYGON);\n";
+    private String footer="glEnd();";
     public FileHandle() {
         this.filename = "pointer.txt";
     }
@@ -33,9 +34,9 @@ public class FileHandle {
     public void saveDoubleValues(double x, double y) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename, true))) {
             
-            String formattedX = String.format("%.3f", x);
-            String formattedY = String.format("%.3f", y);
-            writer.printf("glVertex2f(%.3ff, %.3ff);\n", Double.parseDouble(formattedX), Double.parseDouble(formattedY));
+            String formattedX = String.format("%.2f", x);
+            String formattedY = String.format("%.2f", y);
+            writer.printf("glVertex2f(%.2ff, %.2ff);\n", Double.parseDouble(formattedX), Double.parseDouble(formattedY));
             
             
             

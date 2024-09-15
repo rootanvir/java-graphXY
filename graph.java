@@ -4,19 +4,20 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+    
 public class graph extends JFrame {
-
+    
     private GraphPaperPanel panel;
     private boolean fullscreen = false; // Initialize to false initially
-    private boolean windowOpened = false; // Flag to track whether the window has been opened
+    private boolean windowOpened = false; // Flag to track whether the window has been openedf
     private DotPositionWindow dotPositionWindow;
     private boolean isCmdOpen = false;
 
+    
     public graph() {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setUndecorated(true);
         panel = new GraphPaperPanel();
         getContentPane().add(panel);
         addWindowListener(new WindowAdapter() {
@@ -41,9 +42,14 @@ public class graph extends JFrame {
                 } else if (e.getKeyCode() == KeyEvent.VK_T) {
                     openDotPositionWindow();
                 }
-                else if (e.getKeyCode() == KeyEvent.VK_C && !isCmdOpen) {
+                else if (e.getKeyCode() == KeyEvent.VK_I && !isCmdOpen) {
                     openCommandPrompt();
                     isCmdOpen = true;
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_X)
+                {
+                    System.exit(0);
+                    
                 }
                 return false;
             }
@@ -69,7 +75,7 @@ public class graph extends JFrame {
 
     private void openNewWindow() {
         JFrame newFrame = new JFrame("Developer ");
-        String name = "Tanvir Ahmed Tuhin ";
+        String name = "Tanvir Ahmed Tuhin \n 22-46475-1";
         JLabel label = new JLabel(name);
         newFrame.getContentPane().add(label);
         newFrame.setSize(300, 200);
@@ -102,7 +108,7 @@ public class graph extends JFrame {
         private static void openCommandPrompt() {
         try {
             // Command to execute to open command prompt
-            String command = "cmd.exe /c start";
+            String command = "cmd.exe /c python image.py start";
             
             // Execute the command
             Process process = Runtime.getRuntime().exec(command);
@@ -188,7 +194,7 @@ class GraphPaperPanel extends JPanel {
         // Draw grid lines
         int width = getWidth();
         int height = getHeight();
-        int cellSize = Math.min(width, height) / 40; // Adjust grid size here
+        int cellSize = Math.min(width, height) / 80; // Adjust grid size here
         int centerX = width / 2;
         int centerY = height / 2;
 
@@ -259,7 +265,7 @@ class DotPositionWindow extends JFrame {
     private JTextArea textArea;
 
     public DotPositionWindow() {
-        setTitle("Dot Positions");
+        setTitle("Dot Positions   (ctrl+P to see developer)");
         setSize(500, 800);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setAlwaysOnTop(true);
