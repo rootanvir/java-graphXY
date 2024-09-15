@@ -5,12 +5,12 @@
 
 - Download Java :https://www.oracle.com/java/technologies/downloads/
 - Download Python :https://www.python.org/downloads/
-install them properly
+- install them properly
 
 
 
 # Before use
-if you want to to take reference from image .Take a iamge and put it in same folder .Rename the image with img.png .For better experience image size must be 1920 X 1080. 
+if you want to to take reference from image .Take a image and put it in same folder.Rename the image with img.png .For better experience image size must be 1920 X 1080. 
 
 ## Lessons 
 
