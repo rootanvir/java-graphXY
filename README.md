@@ -8,7 +8,7 @@
 - install them properly
 - After install both java and python .Now open cmd in type "pip install PyQt5" and install the library
 
-#Image selection 
+# Image selection 
 - if you want to to take reference from image .Take a image and put it in same folder.Rename the image with img.png .For better experience image size must be equal to your screen resolution..mine is 1920 X 1080 
 
 # Before use
