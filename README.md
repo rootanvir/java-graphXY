@@ -8,10 +8,18 @@
 - install them properly
 - After install both java and python .Now open cmd in type "pip install PyQt5" and install the library
 
-
+#Image selection 
+- if you want to to take reference from image .Take a image and put it in same folder.Rename the image with img.png .For better experience image size must be equal to your screen resolution..mine is 1920 X 1080 
 
 # Before use
-if you want to to take reference from image .Take a image and put it in same folder.Rename the image with img.png .For better experience image size must be equal to your screen resolution..mine is 1920 X 1080 
+- open cmd type "javac graph.java" to compile
+- type again "java graph"
+- now crtl+f to full screen
+- ctrl + i to load the image open your screen with 50% transparency
+- press window key and click on java that is running in taskbar
+- Again press ctrl + f
+- BOOM!
+
 
 ## Lessons 
 
