@@ -20,4 +20,5 @@ if you want to to take reference from image .Take a image and put it in same fol
 - ctrl+i  -> To make visible your image
 - ctrl+x  -> To exit java program
 - ctrl+p  -> To see developer info
+- press d to clear all the dot
 
