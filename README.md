@@ -6,6 +6,7 @@
 - Download Java :https://www.oracle.com/java/technologies/downloads/
 - Download Python :https://www.python.org/downloads/
 - install them properly
+- After install both java and python .Now open cmd in type "pip install PyQt5" and install the library
 
 
 
